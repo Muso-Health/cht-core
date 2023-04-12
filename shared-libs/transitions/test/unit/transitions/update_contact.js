@@ -6,7 +6,7 @@ const config = require('../../../src/config');
 
 describe('update_contact', () => {
   let transition;
-  const vaccination = "completed";
+  const vaccination = 'completed';
 
   beforeEach(() => {
     config.init({
@@ -205,10 +205,30 @@ describe('update_contact', () => {
         .should.equal(true);
       utils.isValidSubmission.callCount.should.equal(2);
       utils.isValidSubmission.args[0].should.deep.equal([
-        { type: 'data_record', form: 'z', fields: { patient_id: '12', vaccination_state: vaccination }, patient: { patient_id: '12' } }
+        {
+          type: 'data_record',
+          form: 'z',
+          fields: {
+            patient_id: '12',
+            vaccination_state: vaccination
+          },
+          patient: {
+            patient_id: '12'
+          }
+        }
       ]);
       utils.isValidSubmission.args[1].should.deep.equal([
-        { type: 'data_record', form: 't', fields: { patient_id: '12', vaccination_state: vaccination }, patient: { patient_id: '12' } }
+        {
+          type: 'data_record',
+          form: 't',
+          fields: {
+            patient_id: '12',
+            vaccination_state: vaccination
+          },
+          patient: {
+            patient_id: '12'
+          }
+        }
       ]);
     });
   });

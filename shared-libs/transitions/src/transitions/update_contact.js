@@ -29,27 +29,29 @@ const updatePatient = (patient, doc) => {
 };
 
 module.exports = {
-  name: NAME,
+  filter: ({doc, info}) => {
+    return Boolean(
+      doc &&
+        doc.form &&
+        doc.type === 'data_record' &&
+        isConfirmForm(doc.form) &&
+        doc.patient &&
+        !transitionUtils.hasRun(info, NAME) &&
+        utils.isValidSubmission(doc)
+    );
+  },
   init: () => {
     const forms = getConfirmFormCodes();
     if (!forms || !_.isArray(forms) || !forms.length) {
       throw new Error(`Configuration error. Config must have a '${CONFIG_NAME}.${MARK_PROPERTY_NAME}' array defined.`);
     }
     if (!getSourceFieldName()) {
-      throw new Error(`Configuration error. Config must have a '${CONFIG_NAME}.${SOURCE_FORM_FIELD_NAME}' form field defined.`);
+      throw new Error(
+        `Configuration error. Config must have a '${CONFIG_NAME}.${SOURCE_FORM_FIELD_NAME}' form field defined.`
+      );
     }
   },
-  filter: ({ doc, info }) => {
-    return Boolean(
-      doc &&
-      doc.form &&
-      doc.type === 'data_record' &&
-      isConfirmForm(doc.form)  &&
-      doc.patient &&
-      !transitionUtils.hasRun(info, NAME) &&
-      utils.isValidSubmission(doc)
-    );
-  },
+  name: NAME,
   onMatch: change => {
     const hydratedPatient = change.doc.patient;
     if (!hydratedPatient._id) {
