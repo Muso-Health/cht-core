@@ -35,7 +35,7 @@ describe('update_contact', () => {
       };
       config.get.returns({
         mark_contact_update_forms: ['vaccination'],
-        form_field_name: 'vaccination_state'
+        form_field_name: 'fields.vaccination_state'
       });
 
       const saveDoc = sinon.stub(db.medic, 'put').resolves({ ok: true });
@@ -65,7 +65,7 @@ describe('update_contact', () => {
       };
       config.get.returns({
         mark_contact_update_forms: ['vaccination'],
-        form_field_name: 'vaccination_state'
+        form_field_name: 'fields.vaccination_state'
       });
       const saveDoc = sinon.stub(db.medic, 'put').resolves({ ok: true });
       sinon.stub(db.medic, 'get').withArgs(patient._id).resolves(patient);
@@ -95,7 +95,7 @@ describe('update_contact', () => {
       };
       config.get.returns({
         mark_contact_update_forms: ['vaccination'],
-        form_field_name: 'vaccination_state'
+        form_field_name: 'fields.vaccination_state'
       });
       const saveDoc = sinon.stub(db.medic, 'put').resolves({ ok: true });
       sinon.stub(db.medic, 'get').withArgs(patient._id).resolves(patient);
@@ -124,7 +124,7 @@ describe('update_contact', () => {
       };
       config.get.returns({
         mark_contact_update_forms: ['vaccination'],
-        form_field_name: 'vaccination_state'
+        form_field_name: 'fields.vaccination_state'
       });
       sinon.stub(db.medic, 'put');
       sinon.stub(db.medic, 'get');
@@ -142,19 +142,19 @@ describe('update_contact', () => {
     });
 
     it('no type returns false', () => {
-      config.get.returns({ mark_contact_update_forms: ['x', 'y'], form_field_name: 'vaccination_state' });
+      config.get.returns({ mark_contact_update_forms: ['x', 'y'], form_field_name: 'fields.vaccination_state' });
       transition.filter({ doc: { form: 'x' } }).should.equal(false);
       transition.filter({ doc: { from: 'x' }}).should.equal(false);
     });
 
     it('no patient returns false', () => {
-      config.get.returns({ mark_contact_update_forms: ['x', 'y'], form_field_name: 'vaccination_state'  });
+      config.get.returns({ mark_contact_update_forms: ['x', 'y'], form_field_name: 'fields.vaccination_state'  });
       transition.filter({ doc: { form: 'x', type: 'data_record' }}).should.equal(false);
     });
 
     it('invalid submission returns false', () => {
       config.get.returns({
-        mark_contact_update_forms: ['vaccination'], form_field_name: 'vaccination_state'
+        mark_contact_update_forms: ['vaccination'], form_field_name: 'fields.vaccination_state'
       });
 
       sinon.stub(utils, 'isValidSubmission').returns(false);
@@ -177,7 +177,7 @@ describe('update_contact', () => {
     it('returns true', () => {
       config.get.returns({
         mark_contact_update_forms: ['vaccination', 'vaccination_followup'],
-        form_field_name: 'vaccination_state'
+        form_field_name: 'fields.vaccination_state'
       });
 
       sinon.stub(utils, 'isValidSubmission').returns(true);
