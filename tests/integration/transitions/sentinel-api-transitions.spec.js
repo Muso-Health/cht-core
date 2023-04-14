@@ -125,6 +125,10 @@ const transitionsConfig = {
     message: 'Patient temperature high',
     recipient: 'reporting_unit'
   }],
+  update_contact: {
+    mark_deceased_forms: ['VACCINATION'],
+    form_field_name: 'fields.vaccination_state'
+  },
   death_reporting: {
     mark_deceased_forms: ['DEATH'],
     date_field: 'reported_date'
@@ -201,6 +205,25 @@ const formsConfig = {
         position: 1,
         type: 'string',
         length: [5, 13],
+        required: true
+      }
+    }
+  },
+  VACCINATION: {
+    meta: { label: { en: 'Vaccination' }, code: 'VACCINATION'},
+    fields: {
+      patient_id: {
+        labels: { short: { translation_key: 'patient_id' }},
+        position: 1,
+        type: 'string',
+        length: [5, 13],
+        required: true
+      },
+      vaccination_state: {
+        labels: { short: { translation_key: 'vaccination_state' }},
+        position: 2,
+        type: 'string',
+        length: [2, 12],
         required: true
       }
     }
@@ -335,6 +358,7 @@ describe('transitions', () => {
   it('should run all sync transitions and all async transitions', () => {
     const settings = {
       transitions: {
+        update_contact: true,
         accept_patient_reports: true,
         conditional_alerts: true,
         death_reporting: true,
@@ -674,6 +698,7 @@ describe('transitions', () => {
         accept_patient_reports: true,
         conditional_alerts: true,
         death_reporting: true,
+        update_contact: true,
         default_responses: true,
         registration: true,
         update_clinics: true
